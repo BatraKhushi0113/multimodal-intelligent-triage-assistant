@@ -27,7 +27,7 @@ def get_advanced_vision_pipeline() -> AdvancedChestXRayPipeline:
     return AdvancedChestXRayPipeline(
         checkpoint_path=ckpt if ckpt.exists() else None,
         device="cpu",
-        mc_dropout_passes=5,
+        mc_dropout_passes=1,
     )
 
 
@@ -52,12 +52,17 @@ def render_radiology_view() -> None:
         pil_image = generate_synthetic_chest_xray(pathology="pulmonary_edema", image_size=224, random_seed=42)
         st.session_state["active_xray_image"] = pil_image
 
-    vision_pipeline = get_advanced_vision_pipeline()
-    vis_res: AdvancedVisionResult = vision_pipeline.analyze_radiograph(
-        image_input=pil_image,
-        target_finding="Infiltration",
-    )
-    st.session_state["last_vision_result"] = vis_res
+    if "last_vision_result" not in st.session_state or st.session_state.get("_last_analyzed_img") is not pil_image:
+        with st.spinner("Analyzing radiograph with DenseNet-121 & Grad-CAM..."):
+            vision_pipeline = get_advanced_vision_pipeline()
+            vis_res: AdvancedVisionResult = vision_pipeline.analyze_radiograph(
+                image_input=pil_image,
+                target_finding="Infiltration",
+            )
+            st.session_state["last_vision_result"] = vis_res
+            st.session_state["_last_analyzed_img"] = pil_image
+    else:
+        vis_res = st.session_state["last_vision_result"]
 
     # 3. Content Layout (Three Visual Cards on Left + Finding Details on Right)
     col_cards, col_finding = st.columns([2.2, 1.0], gap="large")
