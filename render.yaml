@@ -20,3 +20,4 @@ services:
         value: /tmp/mpl
       - key: TRIAGE_API_KEY
         generateValue: true
+

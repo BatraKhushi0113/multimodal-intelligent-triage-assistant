@@ -71,3 +71,4 @@ docker run -p 8501:8501 -e PORT=8501 -e SERVICE_TYPE=unified mita-clinical-assis
 * All patient identifiers are synthetic or de-identified.
 * Real credentials and API keys are read from environment variables; none are stored in source code.
 * The system is for educational and research prototype demonstration only.
+
