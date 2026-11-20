@@ -76,10 +76,11 @@ def render_radiology_view() -> None:
                 unsafe_allow_html=True,
             )
             uploaded_file = st.file_uploader("Upload X-ray", type=["png", "jpg", "jpeg"], label_visibility="collapsed", key="file_up_xray")
-            if uploaded_file:
+            if uploaded_file and st.session_state.get("_last_up_name") != uploaded_file.name:
                 try:
                     loaded = Image.open(uploaded_file).convert("RGB")
                     st.session_state["active_xray_image"] = loaded
+                    st.session_state["_last_up_name"] = uploaded_file.name
                     st.rerun()
                 except Exception:
                     pass
