@@ -13,7 +13,7 @@ services:
     healthCheckPath: /_stcore/health
     envVars:
       - key: SERVICE_TYPE
-        value: unified
+        value: ui
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: MPLCONFIGDIR
