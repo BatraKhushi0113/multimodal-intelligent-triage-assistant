@@ -1,0 +1,22 @@
+services:
+  # ==============================================================================
+  # Multimodal Intelligent Triage Assistant (MITA) — Render Cloud Blueprint
+  # ==============================================================================
+  - type: web
+    name: mita-clinical-assistant
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: SERVICE_TYPE
+        value: unified
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: MPLCONFIGDIR
+        value: /tmp/mpl
+      - key: TRIAGE_API_KEY
+        generateValue: true
