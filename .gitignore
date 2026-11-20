@@ -48,6 +48,7 @@ data/raw/triage/*
 !data/raw/triage/.gitkeep
 data/raw/xray/*
 !data/raw/xray/.gitkeep
+!data/raw/xray/sample_*.png
 data/raw/voice/*
 !data/raw/voice/.gitkeep
 data/processed/*
